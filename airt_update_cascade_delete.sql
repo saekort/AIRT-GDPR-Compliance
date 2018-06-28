@@ -15,8 +15,6 @@
 	- incident_comments  	-	incident_comments_incident_fkey
 	- incident_mail 	 	-	incident_mail_incidentid_fkey
 	- incident_users 		-	incident_users_incidentid_fkey
-	- user_capabilities		-	user_capabilities_userid_fkey
-	- user_comments			-	
 
 	Note that the mailbox and users tables cannot get by with just a
 	ON CASCADE DELETE. Hence, no constraints are changed on those.
@@ -72,35 +70,5 @@ DROP CONSTRAINT incident_mail_incidentid_fkey;
 ALTER TABLE public.incident_mail
 ADD CONSTRAINT incident_mail_incidentid_fkey FOREIGN KEY (incidentid)
 	REFERENCES public.incidents (id) MATCH SIMPLE
-	ON UPDATE NO ACTION
-	ON DELETE CASCADE;
-
--- DROP and RECREATE incident_users_incidentid_fkey
-ALTER TABLE public.incident_users
-DROP CONSTRAINT incident_users_incidentid_fkey;
-
-ALTER TABLE public.incident_users
-ADD CONSTRAINT incident_users_incidentid_fkey FOREIGN KEY (incidentid)
-	REFERENCES public.incidents (id) MATCH SIMPLE
-	ON UPDATE NO ACTION
-	ON DELETE CASCADE;
-
--- DROP and RECREATE user_capabilities_userid_fkey
-ALTER TABLE public.user_capabilities
-DROP CONSTRAINT user_capabilities_userid_fkey;
-
-ALTER TABLE public.user_capabilities
-ADD CONSTRAINT user_capabilities_userid_fkey FOREIGN KEY (userid)
-	REFERENCES public.users (id) MATCH SIMPLE
-	ON UPDATE NO ACTION
-	ON DELETE CASCADE;
-
-	-- DROP and RECREATE incident_users_incidentid_fkey
-ALTER TABLE public.user_capabilities
-DROP CONSTRAINT user_capabilities_userid_fkey;
-
-ALTER TABLE public.user_capabilities
-ADD CONSTRAINT user_capabilities_userid_fkey FOREIGN KEY (userid)
-	REFERENCES public.users (id) MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE CASCADE;
