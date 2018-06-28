@@ -11,7 +11,15 @@ Then run `airt_delete_old_incidents.sql` as often as you want (suggested: cron i
 
 > **Note:** Depending on how many old incidents you have the `airt_delete_old_incidents.sql` script can run several minutes.
 
-## TODO
-Still dealing the `users` tables.
-If we delete users, then what happens to all the `added_by` columns in other tables?
-Delete users when NOT login =1, NOT a constituency_user AND NOT attached to a incident
+### A word on `users`
+There are three tables: `users`, `user_capabilities` and `user_comments` which do contain personal data. The users include users that can login, but also all the contacts. The scripts do not automatically delete anything from these tables, and here is why.
+
+We would want to delete when the following is true:
+* The user NOT have login permissions in `user_capabilities`
+* The user is NOT a constituency contact in `constituency_contacts`
+* The user is NOT attached to an active incident in `incidents` and `incident_users`
+* The user is older than 2 years
+
+The problem is that the `users` table does not have an age for a user. If the script was to delete without that, it would delete any user that was created, but not yet assigned to any of the above. That seems too risky. Secondly AIRT has a lot of references to users in columns like `added_by` and `creator`. No idea what would happen if those referenced users were deleted. There are no constraints set on those, but you never know.
+
+> **Advice:** Keep an eye on your users yourself. Anonimise those that you do not use.
