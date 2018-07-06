@@ -72,3 +72,13 @@ ADD CONSTRAINT incident_mail_incidentid_fkey FOREIGN KEY (incidentid)
 	REFERENCES public.incidents (id) MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE CASCADE;
+
+-- DROP AND RECREATE incident_users_incidentid_fkey
+ALTER TABLE public.incident_users
+DROP CONSTRAINT incident_users_incidentid_fkey;
+
+ALTER TABLE public.incident_users
+ADD CONSTRAINT incident_users_incidentid_fkey FOREIGN KEY (incidentid)
+	REFERENCES public.incidents (id) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
